@@ -1,10 +1,9 @@
 import {CameraCapturedPicture, CameraType, CameraView} from 'expo-camera';
 import { useRef, useState } from 'react';
-import { Pressable, View, Image } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 
 export default function CameraScreen(){
-  const [facing, setFacing] = useState<CameraType>('back');
   const cameraRef = useRef<CameraView | null>(null);
   let photo: CameraCapturedPicture | null = null;
 
