@@ -1,10 +1,12 @@
-import {CameraType, CameraView} from 'expo-camera';
+import {CameraCapturedPicture, CameraType, CameraView} from 'expo-camera';
 import { useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, View, Image } from 'react-native';
+
 
 export default function CameraScreen(){
   const [facing, setFacing] = useState<CameraType>('back');
   const cameraRef = useRef<CameraView | null>(null);
+  let photo: CameraCapturedPicture | null = null;
 
   return(
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -15,8 +17,7 @@ export default function CameraScreen(){
           <Pressable onPress={async () => {
             try{
               if(cameraRef.current){
-                let photo = await cameraRef.current.takePictureAsync()
-                console.log(photo)
+                photo = await cameraRef.current.takePictureAsync()
               }
             }
             catch(error) {
