@@ -4,6 +4,9 @@ import { Text, StyleSheet} from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
 import Modal from 'react-native-modal';
+import { useCameraPermissions } from "expo-camera";
+import { useRouter } from 'expo-router';
+
 
 type UploadIconProps = {
   onPress: () => void,
@@ -54,6 +57,9 @@ const ModalIcon = ({onPress, name, label}: ModalIconProps) => {
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false)
+  const [permission, requestPermission] = useCameraPermissions();
+  const router = useRouter();
+
   return(
     <View style={{backgroundColor: 'black', flex: 1}}>
       <View style={{backgroundColor: 'black', flex: 0.8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -69,17 +75,31 @@ export default function HomeScreen() {
         >
           <View style={{backgroundColor: '#262626', flex: 0.2, width: '100%', marginTop: 'auto', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', borderRadius: 15}}>
             <ModalIcon
-              onPress={() => {}}
+              onPress={() => {
+                setModalVisible(false);
+                while(!permission){
+                  continue;
+                }
+                if (!permission.granted){
+                  console.log(permission)
+                  requestPermission();
+                  console.log(permission)
+                }
+                if(permission.granted){
+                  router.push('/cameraScreen');
+                  console.log(permission);
+                }
+              }}
               name='camera'
               label='Camera'
             />
             <ModalIcon
-              onPress={() => {}}
+              onPress={() => {setModalVisible(false)}}
               name='picture'
               label='Photo'
             />
             <ModalIcon
-              onPress={() => {}}
+              onPress={() => {setModalVisible(false)}}
               name='addfile'
               label='File'
             />
@@ -91,9 +111,7 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  
-}
 
-)
+
+
 
