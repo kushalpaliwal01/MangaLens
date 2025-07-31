@@ -23,6 +23,7 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="cameraScreen" />
+        <Stack.Screen name="displayImage" />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

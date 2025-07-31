@@ -1,11 +1,13 @@
 import {CameraCapturedPicture, CameraType, CameraView} from 'expo-camera';
 import { useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
+import { useRouter } from 'expo-router'; 
 
 
 export default function CameraScreen(){
   const cameraRef = useRef<CameraView | null>(null);
   let photo: CameraCapturedPicture | null = null;
+  const router = useRouter();
 
   return(
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -17,6 +19,10 @@ export default function CameraScreen(){
             try{
               if(cameraRef.current){
                 photo = await cameraRef.current.takePictureAsync()
+                router.push({
+                  pathname: '/displayImage',
+                  params: {from: 'CameraScreen', uri: photo.uri}
+                });
               }
             }
             catch(error) {
