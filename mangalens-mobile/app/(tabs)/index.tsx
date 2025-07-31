@@ -81,13 +81,10 @@ export default function HomeScreen() {
                   continue;
                 }
                 if (!permission.granted){
-                  console.log(permission)
-                  requestPermission();
-                  console.log(permission)
+                  requestPermission(); 
                 }
                 if(permission.granted){
                   router.push('/cameraScreen');
-                  console.log(permission);
                 }
               }}
               name='camera'
