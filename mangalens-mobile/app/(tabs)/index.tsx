@@ -7,6 +7,7 @@ import Modal from 'react-native-modal';
 import { useCameraPermissions } from "expo-camera";
 import { useRouter } from 'expo-router';
 import * as ImagePicker from "expo-image-picker";
+import * as DocumentPicker from "expo-document-picker";
 
 
 type UploadIconProps = {
@@ -128,8 +129,9 @@ export default function HomeScreen() {
               label='Photo'
             />
             <ModalIcon
-              onPress={() => {
-              
+              onPress={async () => {
+                let result = await DocumentPicker.getDocumentAsync();
+                console.log(result);
               }}
               name='addfile'
               label='File'
