@@ -6,6 +6,7 @@ import { useState } from 'react';
 import Modal from 'react-native-modal';
 import { useCameraPermissions } from "expo-camera";
 import { useRouter } from 'expo-router';
+import * as ImagePicker from "expo-image-picker";
 
 
 type UploadIconProps = {
@@ -58,6 +59,7 @@ const ModalIcon = ({onPress, name, label}: ModalIconProps) => {
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false)
   const [permission, requestPermission] = useCameraPermissions();
+  const [status, requestLibraryPermission] = ImagePicker.useMediaLibraryPermissions();
   const router = useRouter();
 
   return(
@@ -76,7 +78,7 @@ export default function HomeScreen() {
           <View style={{backgroundColor: '#262626', flex: 0.2, width: '100%', marginTop: 'auto', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', borderRadius: 15}}>
             <ModalIcon
               onPress={() => {
-                setModalVisible(false);
+                
                 while(!permission){
                   continue;
                 }
@@ -91,12 +93,44 @@ export default function HomeScreen() {
               label='Camera'
             />
             <ModalIcon
-              onPress={() => {setModalVisible(false)}}
+              onPress={async () => {
+                while(!status){
+                  continue;
+                }
+                if(!status.granted){
+                  requestLibraryPermission();
+                }
+                console.log(status);
+                if (status.granted){
+                  console.log("Status Granted", status.granted);
+                  try{
+                    let result = await ImagePicker.launchImageLibraryAsync({
+                      mediaTypes: 'images',
+                      allowsEditing: true,
+                      quality: 1
+                    });
+                    if(!result.canceled){
+                    console.log(result)
+                    }
+                  }
+                  catch(error: unknown) {
+                    if (error instanceof Error){
+                      console.error(error.message)
+                    }
+                    else{
+                      console.error("An unknown error occured", error);
+                    }
+                  };
+                }    
+                
+              }}
               name='picture'
               label='Photo'
             />
             <ModalIcon
-              onPress={() => {setModalVisible(false)}}
+              onPress={() => {
+              
+              }}
               name='addfile'
               label='File'
             />
