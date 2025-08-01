@@ -13,7 +13,9 @@
       "bundleIdentifier": "com.anonymous.mangalensmobile",
       "infoPlist": {
         "NSCameraUsageDescription": "MangaLens needs your camera to take photos for translation",
-        "NSMicrophoneUsageDescription": "MangaLens needs your microphone to record audio"
+        "NSMicrophoneUsageDescription": "MangaLens needs your microphone to record audio",
+        "NSPhotoLibraryUsageDescription": "MangaLens needs access to your photo library to use a photo for translation",
+        "NSPhotoLibraryAddUsageDescription": "MangaLens needs to save photos for future usage"
       }
     },
     "android": {
@@ -47,7 +49,22 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photoPermission": "Allow $(PRODUCT_NAME) to access your photos",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission":"Allow $(PRODUCT_NAME) to access your microphone"
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
       ]
+
     ],
     "experiments": {
       "typedRoutes": true
