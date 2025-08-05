@@ -1,0 +1,73 @@
+{
+  "expo": {
+    "name": "mangalens-mobile",
+    "slug": "mangalens-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "mangalensmobile",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.mangalensmobile",
+      "infoPlist": {
+        "NSCameraUsageDescription": "MangaLens needs your camera to take photos for translation",
+        "NSMicrophoneUsageDescription": "MangaLens needs your microphone to record audio",
+        "NSPhotoLibraryUsageDescription": "MangaLens needs access to your photo library to use a photo for translation",
+        "NSPhotoLibraryAddUsageDescription": "MangaLens needs to save photos for future usage"
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.mangalensmobile"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photoPermission": "Allow $(PRODUCT_NAME) to access your photos",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission":"Allow $(PRODUCT_NAME) to access your microphone"
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ]
+
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
