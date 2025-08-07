@@ -6,8 +6,10 @@ import { useState } from 'react';
 import Modal from 'react-native-modal';
 import { useCameraPermissions } from "expo-camera";
 import { useRouter } from 'expo-router';
+import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
+
 
 
 type UploadIconProps = {
@@ -63,6 +65,9 @@ export default function HomeScreen() {
   const [status, requestLibraryPermission] = ImagePicker.useMediaLibraryPermissions();
   const router = useRouter();
 
+  let file : string | null = null;
+  
+
   return(
     <View style={{backgroundColor: 'black', flex: 1}}>
       <View style={{backgroundColor: 'black', flex: 0.8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
@@ -101,9 +106,7 @@ export default function HomeScreen() {
                 if(!status.granted){
                   requestLibraryPermission();
                 }
-                console.log(status);
                 if (status.granted){
-                  console.log("Status Granted", status.granted);
                   try{
                     let result = await ImagePicker.launchImageLibraryAsync({
                       mediaTypes: 'images',
@@ -111,7 +114,13 @@ export default function HomeScreen() {
                       quality: 1
                     });
                     if(!result.canceled){
-                    console.log(result)
+                      file = result.assets[0].uri;
+                      console.log(file)
+                      const response = await FileSystem.uploadAsync("http://172.20.10.3:8000/upload", file, {
+                        httpMethod: 'POST',
+                        uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                        fieldName: 'file'
+                      });
                     }
                   }
                   catch(error: unknown) {
@@ -131,7 +140,15 @@ export default function HomeScreen() {
             <ModalIcon
               onPress={async () => {
                 let result = await DocumentPicker.getDocumentAsync();
-                console.log(result);
+                if (!result.canceled){
+                  file = result.assets[0].uri;
+                  console.log(typeof file)
+                  const response = await FileSystem.uploadAsync("http://172.20.10.3:8000/upload", file, {
+                    httpMethod: 'POST',
+                    uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                    fieldName: 'file'
+                  })
+                }
               }}
               name='addfile'
               label='File'
